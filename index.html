@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <title>Task 1</title>
+        <style>
+            #mainwrapper {
+                display: flex;
+                height: 120px;
+                padding: 10px 0;
+                margin: 20px 10px;
+            }
+
+            input[type="radio"] {
+                margin: 8px 8px 8px 40px;
+            }
+
+            input[type="text"] {
+                height: 80px;
+                margin-top: 20px;
+            }
+
+            .filters {
+                display: inline-block;
+                border: 1px solid #0288d1;
+                width: 200px;
+                padding: 8px;
+                margin: 2px;
+                font-size: 20px;
+            }
+
+            table {
+                margin-left: 10px;
+                font-size: 25px;
+            }
+
+            th {
+                background-color: #0288d1;
+                height: 50px;
+                width: 400px;
+            }
+
+            tr:nth-child(even) {
+                background-color: #b3e5fc;
+                height: 50px;
+            }
+
+            tr:nth-child(odd) {
+                background-color: #e1f5fe;
+                height: 50px;
+            }
+        </style>
+        <script src="jq.js"></script>
+        <script>
+            $(function () {
+
+                $(":text").on("keyup", valuesChanged); // end of onkeyup
+
+                $(":radio").on("change", valuesChanged); // end of onchange
+
+                function valuesChanged() {
+                    value = $(":text").val();
+
+                    switch (whichRadio()) {
+                        case "first":
+                            filterByFirstName();
+                            break;
+
+                        case "last":
+                            filterByLastName();
+                            break;
+
+                        case "any":
+                            filterByFullName();
+                            break;
+
+                        case 0:
+                            console.log("No filter selected");
+                            break;
+                    }
+                }
+                    
+                function whichRadio() {
+                    var radioBtns = document.querySelectorAll("input[type='radio']");
+                    for (var i = 0; i < radioBtns.length; i++) {
+                        if (radioBtns[i].checked)
+                            return radioBtns[i].id;
+                    }
+                    return 0;
+                }
+
+                function filterByFirstName() {
+                    $("tr:gt(0)").each(function () {
+                        var currentValue = $(this).children("td:first").text();
+
+                        if (currentValue.toLowerCase().indexOf(value.toLowerCase()) != -1) {
+                            $(this).show(1000);
+                        } else {
+                            $(this).hide(1000);
+                        }
+                    });
+                }
+
+                function filterByLastName() {
+                    $("tr:gt(0)").each(function () {
+                        var currentValue = $(this).children("td:eq(1)").text();
+
+                        if (currentValue.toLowerCase().indexOf(value.toLowerCase()) != -1) {
+                            $(this).show(1000);
+                        } else {
+                            $(this).hide(1000);
+                        }
+                    });
+                }
+
+                function filterByFullName() {
+                    $("tr:gt(0)").each(function () {
+                        var currentValue = $(this).children().text();
+
+                        if (currentValue.toLowerCase().indexOf(value.toLowerCase()) != -1) {
+                            $(this).show(1000);
+                        } else {
+                            $(this).hide(1000);
+                        }
+                    });
+                }
+
+
+                // $("#first").on("click", function () {
+                //     value = $(":text").val();
+                    
+                //     $("tr:gt(0)").each(function () {
+                //         var currentValue = $(this).children("td:first").text();
+
+                //         if (currentValue.toLowerCase().indexOf(value.toLowerCase()) != -1) {
+                //             $(this).show(1000);
+                //         } else {
+                //             $(this).hide(1000);
+                //         }
+                //     }); //end of each for tr
+                // }); // end of filter by first name
+
+
+                // $("#last").on("click", function () {
+                //     value = $(":text").val();
+
+                //     $("tr:gt(0)").each(function () {
+                //         var currentValue = $(this).children("td:eq(1)").text();
+
+                //         if (currentValue.toLowerCase().indexOf(value.toLowerCase()) != -1) {
+                //             $(this).show(1000);
+                //         } else {
+                //             $(this).hide(1000);
+                //         }
+                //     }); //end of each for tr
+                // }); // end of filter by last name
+
+
+                // $("#any").on("click", function () {
+                //     value = $(":text").val();
+ 
+                //     $("tr:gt(0)").each(function () {
+                //         var currentValue = $(this).children().text();
+
+                //         if (currentValue.toLowerCase().indexOf(value.toLowerCase()) != -1) {
+                //             $(this).show(1000);
+                //         } else {
+                //             $(this).hide(1000);
+                //         }
+                //     }); //end of each for tr
+                // }); // end of filter by full name
+
+            }); // end of load
+        </script>
+    </head>
+    <body>
+        <div id="mainwrapper">
+            <input type="text" />
+            <div>
+                <input type="radio" name="filter" id="first" /> <div class="filters">Filter using First Name</div><br/>
+                <input type="radio" name="filter" id="last"/> <div class="filters">Filter using Last Name</div><br/>
+                <input type="radio" name="filter" id="any"/> <div class="filters">Filter using Any Data</div>
+            </div>
+        </div>
+        <table>
+            <tr>
+                <th>First Name</th>
+                <th>Last Name</th>
+            </tr>
+            <tr>
+                <td>Mohamed</td>
+                <td>X</td>
+            </tr>
+            <tr>
+                <td>Khaled</td>
+                <td>Y</td>
+            </tr>
+            <tr>
+                <td>Ibraheem</td>
+                <td>Z</td>
+            </tr>
+            <tr>
+                <td>AbdAllah</td>
+                <td>ABC</td>
+            </tr>
+        </table>
+    </body>
+</html>
